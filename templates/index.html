@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+    <div class="container text-center">
+        <div class="row row-cols-4">
+            <div class="col-12"><h1>Cafe in Localtion</h1></div>
+            {% if current_user.is_authenticated%}
+            <div class="col"><a href="{{ url_for('logout')}}">Đăng Xuất</a></div>
+            {% else %}
+            <div class="col"><a href="{{ url_for('register')}}">Đăng Kí</a></div>
+            {% endif %}
+        </div>
+        
+        <hr>
+        <div class="row row-cols-4">
+            <div class="col">STT</div>
+            <div class="col-2">Cafe</div>
+            <div class="col">Place</div>
+            <div class="col">Image</div>
+            <div class="col-2">Location</div>
+            <div class="col">Socket</div>
+            <div class="col">Tolet</div>
+            <div class="col">Wifi</div>
+            <div class="col">Call Take Home</div>
+            <div class="col">Seats</div>
+            <div class="col">Price</div>
+            {% if current_user.is_authenticated %}
+            <div class="col"><a href="{{url_for('add')}}">Thêm</a></div>
+            {% elif current_user.is_authenticated %}
+            <div class="col"></div>
+            {% else %}
+            <div class="col"><a href="{{url_for('login')}}">Đăng Nhập</a></div>
+            {% endif %}
+        </div>
+        <hr>
+        {% for cafe in form %}
+        <div class="row row-cols-4">
+            <div class="col">{{ cafe.id }}</div>
+            <div class="col-2">{{ cafe.name }}</div>
+            <div class="col"><a href="{{ cafe.map_url }}">Map Google</a></div>
+            <div class="col"><a href="{{ cafe.img_url }}">Image Cafe</a></div>
+            <div class="col-2">{{ cafe.location }}</div>
+            <div class="col">{{ cafe.has_sockets }}</div>
+            <div class="col">{{ cafe.has_toilet }}</div>
+            <div class="col">{{ cafe.has_wifi }}</div>
+            <div class="col">{{ cafe.can_take_calls }}</div>
+            <div class="col">{{ cafe.seats }}</div>
+            <div class="col">{{ cafe.coffee_price }}</div>
+            {% if current_user.is_authenticated and current_user.id == 1%}
+            <div class="col"><a href="{{url_for('delete',cafe_id = cafe.id)}}">Xóa</a></div>
+            {% else %}
+            <div class="col"></div>
+            {% endif %}
+        </div>
+        <hr class="border border-danger">
+        {% endfor %}
+    </div>
+{% endblock %}
